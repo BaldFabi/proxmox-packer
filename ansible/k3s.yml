@@ -1,0 +1,5 @@
+---
+- hosts: '{{ target_hosts | default("all") }}'
+  roles:
+    - ubuntu_debian
+    - k3s

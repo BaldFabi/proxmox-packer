@@ -1,6 +1,6 @@
 # Proxmox Packer template provisioning
 
-This repository provides you configuration files to generate templates for [Debian 10](debian_10.json), [Debian 11](debian_11.json), [Ubuntu 20.04](ubuntu_20.04.json) and [Alpine (made for 3.13)](alpine_3.13.json) on your Proxmox host.
+This repository provides you configuration files to generate templates for [Debian 10](debian_10.json), [Debian 11](debian_11.json), [Debian 11 k3s node](debian_11_k3s_node.json), [Ubuntu 20.04](ubuntu_20.04.json) and [Alpine (made for 3.13)](alpine_3.13.json) on your Proxmox host.
 
 ## Vars
 
@@ -25,7 +25,7 @@ Checkout the configs within the [config](config/) directory. These are the speci
 ## Things which are currently not configurable
 
 - Root password: Abc1234\_
-- OS disk: 10GB
+- OS disk: 10GB (additional 10GB for K3s node)
 - CPU/Memory: 2/2048MB
 - Template names: debian-10, debian-11, ubuntu-20.04, alpine
 - VM IDs:
@@ -33,6 +33,7 @@ Checkout the configs within the [config](config/) directory. These are the speci
   - Ubuntu 20.04: 902
   - Alpine: 903
   - Debian 11: 904
+  - Debian 11 k3s node: 905
 
 ## Example
 

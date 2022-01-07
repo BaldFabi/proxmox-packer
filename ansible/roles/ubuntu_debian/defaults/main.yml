@@ -1,0 +1,12 @@
+---
+packages:
+  - wget
+  - vim
+  - python3-pip
+  - net-tools
+  - unzip
+  - apt-transport-https
+  - git
+  - fzf
+  - unattended-upgrades
+  - qemu-guest-agent

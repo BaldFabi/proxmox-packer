@@ -1,0 +1,85 @@
+{
+  "variables": {
+    "proxmox_server": "",
+    "proxmox_username": "service_packer@pve",
+    "proxmox_password": "",
+    "proxmox_node": "",
+    "proxmox_storage_pool": "",
+    "proxmox_storage_pool_type": "directory",
+    "proxmox_storage_format": "qcow2",
+    "proxmox_iso_file": "",
+    "http_ip": "{{ .HTTPIP }}"
+  },
+  "builders": [
+    {
+      "type": "proxmox",
+      "proxmox_url": "https://{{ user `proxmox_server` }}:8006/api2/json",
+      "insecure_skip_tls_verify": true,
+      "username": "{{ user `proxmox_username` }}",
+      "password": "{{ user `proxmox_password` }}",
+      "http_directory": "config",
+      "http_port_min": 12111,
+      "http_port_max": 12111,
+
+      "node": "{{ user `proxmox_node` }}",
+      "cores": 2,
+      "memory": 2048,
+      "os": "l26",
+      "network_adapters": [
+        {
+          "model": "virtio",
+          "bridge": "vmbr0"
+        }
+      ],
+      "disks": [
+        {
+          "type": "scsi",
+          "disk_size": "10G",
+          "storage_pool": "{{ user `proxmox_storage_pool` }}",
+          "storage_pool_type": "{{ user `proxmox_storage_pool_type` }}",
+          "format": "{{ user `proxmox_storage_format` }}"
+        }
+      ],
+
+      "iso_file": "{{ user `proxmox_iso_file` }}",
+      "boot_wait": "5s",
+      "boot_command": [
+        "<enter><enter><f6><esc><wait> ",
+        "autoinstall ds=nocloud-net;seedfrom=http://{{ user `http_ip` }}:{{ .HTTPPort }}/",
+        "<enter><wait>"
+      ],
+
+      "ssh_timeout": "15m",
+      "ssh_username": "ubuntu",
+      "ssh_password": "Abc1234_",
+
+      "unmount_iso": true,
+      "vm_id": 902,
+      "template_name": "ubuntu-20.04",
+      "template_description": "Ubuntu 20.04, generated on {{ isotime \"2006-01-02T15:04:05Z\" }}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo apt-get update",
+        "sudo apt-get install -y python3-pip",
+        "sudo python3 -m pip install ansible"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "./ansible/ubuntu_debian.yml",
+      "playbook_dir": "./ansible",
+      "extra_arguments": ["-b"]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo python3 -m pip uninstall -y ansible",
+        "sudo sed -i '/^ubuntu/d' /etc/sudoers"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "variables": {
+    "proxmox_server": "",
+    "proxmox_username": "service_packer@pve",
+    "proxmox_password": "",
+    "proxmox_node": "",
+    "proxmox_storage_pool": "",
+    "proxmox_storage_pool_type": "directory",
+    "proxmox_storage_format": "qcow2",
+    "proxmox_iso_file": "",
+    "http_ip": "{{ .HTTPIP }}"
+  },
+  "builders": [
+    {
+      "type": "proxmox",
+      "proxmox_url": "https://{{ user `proxmox_server` }}:8006/api2/json",
+      "insecure_skip_tls_verify": true,
+      "username": "{{ user `proxmox_username` }}",
+      "password": "{{ user `proxmox_password` }}",
+      "http_directory": "config",
+      "http_port_min": 12111,
+      "http_port_max": 12111,
+
+      "node": "{{ user `proxmox_node` }}",
+      "cores": 2,
+      "memory": 2048,
+      "os": "l26",
+      "network_adapters": [
+        {
+          "model": "virtio",
+          "bridge": "vmbr0"
+        }
+      ],
+      "disks": [
+        {
+          "type": "scsi",
+          "disk_size": "10G",
+          "storage_pool": "{{ user `proxmox_storage_pool` }}",
+          "storage_pool_type": "{{ user `proxmox_storage_pool_type` }}",
+          "format": "{{ user `proxmox_storage_format` }}"
+        }
+      ],
+
+      "iso_file": "{{ user `proxmox_iso_file` }}",
+      "boot_wait": "10s",
+      "boot_command": [
+        "<esc><wait>",
+        "auto url=http://{{ user `http_ip` }}:{{ .HTTPPort }}/debian.cfg<enter>"
+      ],
+
+      "ssh_timeout": "15m",
+      "ssh_username": "root",
+      "ssh_password": "Abc1234_",
+
+      "unmount_iso": true,
+      "vm_id": 901,
+      "template_name": "debian-10",
+      "template_description": "Debian 10, generated on {{ isotime \"2006-01-02T15:04:05Z\" }}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "./ansible/ubuntu_debian.yml"
+    }
+  ]
+}

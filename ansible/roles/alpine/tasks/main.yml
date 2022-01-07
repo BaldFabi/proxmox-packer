@@ -1,0 +1,22 @@
+---
+- name: set keymap
+  ansible.builtin.command: setup-keymap de de
+
+- name: update the system
+  community.general.apk:
+    upgrade: yes
+    update_cache: yes
+
+- name: install common packages
+  community.general.apk:
+    name: "{{ packages }}"
+    update_cache: yes
+
+- name: copy vimrc.local config and ps1.sh
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - { src: "../../files/vimrc.local", dest: "/etc/vim/vimrc" }
+    - { src: "ps1.sh", dest: "/etc/profile.d/ps1.sh" }
+    - { src: "colors.sh", dest: "/etc/profile.d/colors.sh" }

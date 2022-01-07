@@ -51,6 +51,7 @@ packer build \
     -var 'proxmox_storage_pool=...'         \
     -var 'proxmox_storage_pool_type=...'    \
     -var 'proxmox_storage_format=...'       \
+    -var 'proxmox_iso_file=...'             \
     -var 'http_ip=192.168.2.100'            \
     debian_11.json
 ```

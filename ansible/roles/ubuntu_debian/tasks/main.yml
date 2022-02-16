@@ -81,3 +81,16 @@
         regex: "^\\s*//Unattended-Upgrade::Remove-Unused-Dependencies",
         line: 'Unattended-Upgrade::Remove-Unused-Dependencies "true";'
       }
+
+- name: activate auto upgrades
+  lineinfile:
+    name: /etc/apt/apt.conf.d/20auto-upgrades
+    line: "{{ item }}"
+    state: present
+    create: yes
+    owner: root
+    group: root
+    mode: "0644"
+  with_items:
+    - 'APT::Periodic::Update-Package-Lists "1";'
+    - 'APT::Periodic::Unattended-Upgrade "1";'

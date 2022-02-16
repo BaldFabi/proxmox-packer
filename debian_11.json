@@ -53,7 +53,7 @@
       "ssh_password": "Abc1234_",
 
       "unmount_iso": true,
-      "vm_id": 904,
+      "vm_id": 901,
       "template_name": "debian-11",
       "template_description": "Debian 11, generated on {{ isotime \"2006-01-02T15:04:05Z\" }}"
     }

@@ -68,7 +68,7 @@
       "ssh_password": "Abc1234",
 
       "unmount_iso": true,
-      "vm_id": 903,
+      "vm_id": 904,
       "template_name": "alpine-3.13",
       "template_description": "Alpine, generated on {{ isotime \"2006-01-02T15:04:05Z\" }}"
     }

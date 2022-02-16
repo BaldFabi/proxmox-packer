@@ -27,13 +27,12 @@ Checkout the configs within the [config](config/) directory. These are the speci
 - Root password: Abc1234\_
 - OS disk: 10GB (additional 10GB for K3s node)
 - CPU/Memory: 2/2048MB
-- Template names: debian-10, debian-11, ubuntu-20.04, alpine
+- Template names: debian-10, debian-11, ubuntu-20.04, alpine, debian-k3s-node
 - VM IDs:
-  - Debian 10: 901
+  - Debian 10/11: 901
   - Ubuntu 20.04: 902
-  - Alpine: 903
-  - Debian 11: 904
-  - Debian 11 k3s node: 905
+  - Debian 11 k3s node: 903
+  - Alpine: 904
 
 ## Example
 

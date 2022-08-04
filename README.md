@@ -25,7 +25,7 @@ Checkout the configs within the [config](config/) directory. These are the speci
 ## Things which are currently not configurable
 
 - Root password: Abc1234\_
-- OS disk: 10GB (additional 10GB for K3s node)
+- OS disk: 20GB (additional 10GB for K3s node)
 - CPU/Memory: 2/2048MB
 - Template names: debian-10, debian-11, ubuntu-20.04, alpine, debian-k3s-node
 - VM IDs:

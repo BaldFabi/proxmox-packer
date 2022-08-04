@@ -34,7 +34,7 @@
       "disks": [
         {
           "type": "scsi",
-          "disk_size": "10G",
+          "disk_size": "20G",
           "storage_pool": "{{ user `proxmox_storage_pool` }}",
           "storage_pool_type": "{{ user `proxmox_storage_pool_type` }}",
           "format": "{{ user `proxmox_storage_format` }}"

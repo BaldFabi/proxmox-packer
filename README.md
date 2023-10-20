@@ -1,6 +1,6 @@
 # Proxmox Packer template provisioning
 
-This repository provides you configuration files to generate templates for [Debian 10](debian_10.json), [Debian 11](debian_11.json), [Debian 11 k3s node](debian_11_k3s_node.json), [Ubuntu 20.04](ubuntu_20.04.json) and [Alpine (made for 3.13)](alpine_3.13.json) on your Proxmox host.
+This repository provides configuration files to generate templates for various distributions on your Proxmox host.
 
 ## Vars
 
@@ -27,12 +27,15 @@ Checkout the configs within the [config](config/) directory. These are the speci
 - Root password: Abc1234\_
 - OS disk: 20GB (additional 10GB for K3s node)
 - CPU/Memory: 2/2048MB
-- Template names: debian-10, debian-11, ubuntu-20.04, alpine, debian-k3s-node
+- Template names: debian-10, debian-11, debian-12, ubuntu-20.04 debian-k3s-node
 - VM IDs:
-  - Debian 10/11: 901
-  - Ubuntu 20.04: 902
-  - Debian 11 k3s node: 903
-  - Alpine: 904
+  - Debian 10: 910
+  - Debian 11: 911
+  - Debain 12: 912
+  - Ubuntu 20.04: 920
+  - Debian 11 k3s node: 983
+
+> ⚠️ Everything except the Debian 12 config is outdated
 
 ## Example
 
@@ -43,17 +46,17 @@ apk update && apk add ansible sshpass
 ```
 
 ```bash
+packer init debian_12.pkr.hcl
+
 packer build \
-    -var 'proxmox_server=...'               \
-    -var 'proxmox_username=...'             \
-    -var 'proxmox_password=...'             \
-    -var 'proxmox_node=...'                 \
-    -var 'proxmox_storage_pool=...'         \
-    -var 'proxmox_storage_pool_type=...'    \
-    -var 'proxmox_storage_format=...'       \
-    -var 'proxmox_iso_file=...'             \
-    -var 'http_ip=192.168.2.100'            \
-    debian_11.json
+    -var 'proxmox_server=1.2.3.4'                                      \
+    -var 'proxmox_username=username@pve'                               \
+    -var 'proxmox_password=YOUR_SECURE_PASSWORD'                       \
+    -var 'proxmox_node=foobar'                                         \
+    -var 'proxmox_storage_pool=local-lvm'                              \
+    -var 'proxmox_iso_file=local:iso/debian-12.2.0-amd64-netinst.iso'  \
+    -var 'http_ip=192.168.1.10'                                        \
+    debian_12.pkr.hcl
 ```
 
 ## Contribute

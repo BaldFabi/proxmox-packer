@@ -6,7 +6,7 @@
     "proxmox_node": "",
     "proxmox_storage_pool": "",
     "proxmox_storage_pool_type": "directory",
-    "proxmox_storage_format": "qcow2",
+    "proxmox_storage_format": "raw",
     "proxmox_iso_file": "",
     "http_ip": "{{ .HTTPIP }}"
   },
@@ -34,9 +34,8 @@
       "disks": [
         {
           "type": "scsi",
-          "disk_size": "10G",
+          "disk_size": "20G",
           "storage_pool": "{{ user `proxmox_storage_pool` }}",
-          "storage_pool_type": "{{ user `proxmox_storage_pool_type` }}",
           "format": "{{ user `proxmox_storage_format` }}"
         }
       ],
@@ -53,7 +52,7 @@
       "ssh_password": "Abc1234_",
 
       "unmount_iso": true,
-      "vm_id": 901,
+      "vm_id": 910,
       "template_name": "debian-10",
       "template_description": "Debian 10, generated on {{ isotime \"2006-01-02T15:04:05Z\" }}"
     }

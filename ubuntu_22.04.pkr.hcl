@@ -51,8 +51,14 @@ variable "proxmox_username" {
   default = "service_packer@pve"
 }
 
-source "proxmox" "debian-12" {
-  boot_command = ["<esc><wait>", "auto url=http://${var.http_ip}:{{ .HTTPPort }}/debian_bookworm_test.cfg<enter>"]
+source "proxmox" "ubuntu-2204" {
+  boot_command = [
+    "c",
+    "linux /casper/vmlinuz --- autoinstall ds='nocloud-net;s=http://${var.http_ip}:{{ .HTTPPort }}/'",
+    "<enter><wait>",
+    "initrd /casper/initrd<enter><wait>",
+    "boot<enter>"
+  ]
   boot_wait    = "10s"
   cores        = 2
 
@@ -81,19 +87,29 @@ source "proxmox" "debian-12" {
   proxmox_url          = "https://${var.proxmox_server}:8006/api2/json"
   ssh_password         = "Abc1234_"
   ssh_timeout          = "15m"
-  ssh_username         = "root"
-  template_description = "Debian 12, generated on ${timestamp()}"
-  template_name        = "debian-12"
+  ssh_username         = "ubuntu"
+  template_description = "Ubuntu 22.04, generated on ${timestamp()}"
+  template_name        = "ubuntu-22.04"
   unmount_iso          = true
   username             = "${var.proxmox_username}"
-  vm_id                = 912
+  vm_id                = 922
 }
 
 build {
-  sources = ["source.proxmox.debian-12"]
+  sources = ["source.proxmox.ubuntu-2204"]
 
-  provisioner "ansible" {
-    playbook_file = "./ansible/ubuntu_debian.yml"
+  provisioner "shell" {
+    inline = ["sudo apt-get update", "sudo apt-get install -y python3-pip", "sudo python3 -m pip install ansible"]
+  }
+
+  provisioner "ansible-local" {
+    extra_arguments = ["-b"]
+    playbook_dir    = "./ansible"
+    playbook_file   = "./ansible/ubuntu_debian.yml"
+  }
+
+  provisioner "shell" {
+    inline = ["sudo python3 -m pip uninstall -y ansible", "sudo sed -i '/^ubuntu/d' /etc/sudoers"]
   }
 
 }

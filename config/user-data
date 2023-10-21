@@ -5,12 +5,12 @@ autoinstall:
   keyboard:
     layout: de
     variant: de
-  network:
-    network:
-      version: 2
-      ethernets:
-        ens18:
-          dhcp4: true
+  #network:
+    #network:
+      #version: 2
+      #ethernets:
+        #ens18:
+          #dhcp4: true
   storage:
     layout:
       name: lvm
@@ -22,6 +22,8 @@ autoinstall:
     install-server: yes
   user-data:
     disable_root: false
+    package_upgrade: true
+    timezone: Europe/Berlin
   packages:
     - qemu-guest-agent
   late-commands:

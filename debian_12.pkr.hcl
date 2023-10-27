@@ -52,7 +52,7 @@ variable "proxmox_username" {
 }
 
 source "proxmox" "debian-12" {
-  boot_command = ["<esc><wait>", "auto url=http://${var.http_ip}:{{ .HTTPPort }}/debian_bookworm_test.cfg<enter>"]
+  boot_command = ["<esc><wait>", "auto url=http://${var.http_ip}:{{ .HTTPPort }}/debian_bookworm.cfg<enter>"]
   boot_wait    = "10s"
   cores        = 2
 

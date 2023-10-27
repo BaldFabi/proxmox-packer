@@ -93,6 +93,7 @@ build {
   sources = ["source.proxmox.debian-12"]
 
   provisioner "ansible" {
+    extra_arguments = [ "--scp-extra-args", "'-O'" ]
     playbook_file = "./ansible/ubuntu_debian.yml"
   }
 

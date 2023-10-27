@@ -103,7 +103,7 @@ build {
   }
 
   provisioner "ansible-local" {
-    extra_arguments = ["-b"]
+    extra_arguments = [ "--scp-extra-args", "'-O'", "-b" ]
     playbook_dir    = "./ansible"
     playbook_file   = "./ansible/ubuntu_debian.yml"
   }
